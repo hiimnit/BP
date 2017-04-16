@@ -32,9 +32,7 @@ int FG(int i, int j) {
         m_o[i * N + j] -= m_o[k * N + j] * m_l[i * N + k];
     }
 
-    if(i <= j) {
-        // send = save to m_o
-    } else {
+    if(i > j) {
         // recv
         m_l[i * N + j] = m_o[i * N + j] / m_o[j * N + j];
         // send = save to m_l
@@ -45,7 +43,6 @@ int FG(int i, int j) {
 
 
 int main(int argc, char **argv) {
-    int x;
     for(int i = 0; i < SIZE; ++i) {
         m_l[i] = 0;
         m_o[i] = 0;
@@ -67,16 +64,11 @@ int main(int argc, char **argv) {
     cout << "m_o: ";
     for(int i = 0; i < SIZE; ++i) {
         if(i % N == 0) cout << endl;
-        cout << m_o[i] << ' ';
+        if(i / N > i % N)
+            cout << m_l[i] << ' ';
+        else
+            cout << m_o[i] << ' ';
     }
-
-    cout << endl << "=============================" << endl;
-    cout << "m_l: ";
-    for(int i = 0; i < SIZE; ++i) {
-        if(i % N == 0) cout << endl;
-        cout << m_l[i] << ' ';
-    }
-
     cout << endl;
 
     return 0;
